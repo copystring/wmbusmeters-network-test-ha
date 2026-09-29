@@ -23,5 +23,7 @@ Version 0.1.1 was built and started in an amd64 Home Assistant installation.
 The build passed the C++ internal tests and all seven network integration tests,
 including real ser2net in raw TCP and RFC2217 modes. A physical nanoCUL868 running
 firmware 1.67 (`nanoCUL868_r571`) accepted RFC2217 configuration and confirmed
-both `TMODE` and `CMODE` when initialized by the add-on. RF telegram reception
-and MQTT meter entities have not yet been validated on this physical setup.
+both `TMODE` and `CMODE` when initialized by the add-on. In C1 mode, real
+Kamstrup cold-water meter telegrams reached wmbusmeters through the RFC2217
+connection and were recognized. Ownership of the received meter has not been
+confirmed. MQTT meter entities have not been configured or validated.
