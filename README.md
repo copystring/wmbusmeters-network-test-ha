@@ -6,11 +6,19 @@ It builds the exact tested network-serial revision and runs directly in Home Ass
 Add this repository to the Home Assistant app store and install **[Test] Wmbusmeters RFC2217**.
 Home Assistant builds the image locally. Configure `device`, for example
 `rfc2217://bridge.local:20109:cul:t1`, then start the app and inspect its logs.
-The test stops after 15 minutes by default. It does not start automatically at boot.
+The test stops after 15 minutes by default; `duration_minutes` can be set up to 1440
+for a 24-hour capture. It does not start automatically at boot.
 
 The add-on tests receiver initialization and telegram reception without requiring a meter AES key.
 It does not configure MQTT or create meter entities. It has no USB access and does not mount
-Home Assistant configuration or shared volumes. Only one application may control the receiver.
+Home Assistant configuration. Only one application may control the receiver.
+
+Each run saves timestamped receiver output and raw telegrams to a new file under
+`/share/wmbusmeters-network-test/`, while also showing the output in the app's log tab.
+Files survive app restarts and updates. They are plain UTF-8 text and can be retrieved
+through the Terminal & SSH app or an existing share browser. The timestamps use UTC.
+Meter identifiers can be received without an AES key; encrypted measurements still
+require the meter's key. No keys are stored by this diagnostic add-on.
 
 During the local image build, Home Assistant runs protocol tests and both transports against real ser2net,
 and verifies the runtime binary. The transport itself is GPL-3.0-or-later; its source is pinned in the Dockerfile.

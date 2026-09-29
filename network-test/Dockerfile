@@ -19,8 +19,9 @@ RUN if [ "${RUN_TESTS}" = "true" ]; then \
     fi
 
 FROM ${BUILD_FROM} AS runtime
-RUN apk add --no-cache libstdc++ libxml2 libxslt librtlsdr libusb
+RUN apk add --no-cache libstdc++ libxml2 libxslt librtlsdr libusb python3
 COPY --from=build /src/build/wmbusmeters /usr/bin/wmbusmeters
 COPY run.sh /run.sh
+COPY log_receiver.py /log_receiver.py
 RUN chmod 755 /run.sh && /usr/bin/wmbusmeters --version
 CMD ["/run.sh"]
