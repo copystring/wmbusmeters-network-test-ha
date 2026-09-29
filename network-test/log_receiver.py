@@ -14,7 +14,8 @@ def readable_reading(line):
         reading = json.loads(line)
     except json.JSONDecodeError:
         return None
-    if not isinstance(reading, dict) or reading.get("media") != "water":
+    if not isinstance(reading, dict) or reading.get("media") not in (
+            "water", "cold water", "hot water"):
         return None
     parts = [f"Wasserzähler {reading.get('id', '?')}"]
     volume = reading.get("total_m3")
