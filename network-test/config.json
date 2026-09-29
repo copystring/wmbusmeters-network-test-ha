@@ -1,6 +1,6 @@
 {
     "name": "[Test] Wmbusmeters RFC2217",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "slug": "wmbusmeters-network-test",
     "description": "Test native TCP/RFC2217 receiver connections and telegram reception",
     "url": "https://github.com/copystring/wmbusmeters-network-test-ha",

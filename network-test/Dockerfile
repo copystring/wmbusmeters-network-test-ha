@@ -9,7 +9,7 @@ RUN apk add --no-cache build-base git pkgconf linux-headers \
 WORKDIR /src
 RUN git init && \
     git remote add origin https://github.com/copystring/wmbusmeters.git && \
-    git fetch --depth 1 origin e44c9f8489d4006dcd57edcd8db67bf34edc20c3 && \
+    git fetch --depth 1 origin 5648f50439218acb8bfc71340a06d41e4f16a7a1 && \
     git checkout --detach FETCH_HEAD
 RUN ./configure && make -j2 TAG=3.0.0-network-test
 
