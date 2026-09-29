@@ -1,0 +1,19 @@
+{
+    "name": "[Test] Wmbusmeters RFC2217",
+    "version": "0.1.0",
+    "slug": "wmbusmeters-network-test",
+    "description": "Test native TCP/RFC2217 receiver connections and telegram reception",
+    "url": "https://github.com/copystring/wmbusmeters-network-test-ha",
+    "arch": ["amd64"],
+    "startup": "application",
+    "boot": "manual",
+    "init": false,
+    "options": {
+        "device": "",
+        "duration_minutes": 15
+    },
+    "schema": {
+        "device": "str",
+        "duration_minutes": "int(1,120)"
+    }
+}
