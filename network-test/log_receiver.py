@@ -3,9 +3,31 @@
 """Persist timestamped receiver output while retaining Home Assistant logs."""
 
 from datetime import datetime, timezone
+import json
 import signal
 import subprocess
 import sys
+
+
+def readable_reading(line):
+    try:
+        reading = json.loads(line)
+    except json.JSONDecodeError:
+        return None
+    if not isinstance(reading, dict) or reading.get("media") != "water":
+        return None
+    parts = [f"Wasserzähler {reading.get('id', '?')}"]
+    volume = reading.get("total_m3")
+    if isinstance(volume, (int, float)):
+        parts.append(f"Zählerstand: {volume:g} m³ ({volume * 1000:g} Liter)")
+    translations = {"OK": "OK", "DRY": "Trockenlauf / kein Wasser",
+                    "REVERSE": "Rückwärtsfluss", "LEAK": "Leckage",
+                    "BURST": "Rohrbruchalarm"}
+    status = reading.get("status")
+    if isinstance(status, str):
+        parts.append("Status: " + ", ".join(
+            translations.get(flag, flag) for flag in status.split()))
+    return " | ".join(parts) + "\n"
 
 
 def main():
@@ -27,6 +49,11 @@ def main():
                 entry = f"{timestamp} {line}"
                 log.write(entry)
                 print(entry, end="", flush=True)
+                summary = readable_reading(line)
+                if summary is not None:
+                    entry = f"{timestamp} {summary}"
+                    log.write(entry)
+                    print(entry, end="", flush=True)
             result = child.wait()
             return result if result >= 0 else 128 - result
         finally:

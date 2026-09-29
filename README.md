@@ -20,6 +20,13 @@ through the Terminal & SSH app or an existing share browser. The timestamps use 
 Meter identifiers can be received without an AES key; encrypted measurements still
 require the meter's key. No keys are stored by this diagnostic add-on.
 
+To decode an unencrypted meter, set `meter_id` to its eight-digit ID. The add-on
+uses automatic driver detection with `NOKEY` and logs the decoded JSON readings.
+Water readings also receive a plain German summary with the total in cubic metres
+and litres, and status messages. Leave `meter_id` empty for reception discovery.
+Missing measurements are omitted from the summary; only fields broadcast by the
+meter can be shown. Encrypted meter decoding is not configured by this option.
+
 During the local image build, Home Assistant runs protocol tests and both transports against real ser2net,
 and verifies the runtime binary. The transport itself is GPL-3.0-or-later; its source is pinned in the Dockerfile.
 
@@ -33,5 +40,6 @@ including real ser2net in raw TCP and RFC2217 modes. A physical nanoCUL868 runni
 firmware 1.67 (`nanoCUL868_r571`) accepted RFC2217 configuration and confirmed
 both `TMODE` and `CMODE` when initialized by the add-on. In C1 mode, real
 Kamstrup cold-water meter telegrams reached wmbusmeters through the RFC2217
-connection and were recognized. Ownership of the received meter has not been
-confirmed. MQTT meter entities have not been configured or validated.
+connection and were recognized. The owner confirmed that the received meter is
+their unencrypted spare water meter. MQTT meter entities have not been configured
+or validated.
